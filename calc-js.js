@@ -6,6 +6,10 @@ function add(...args) {
     return add;
 }
 
+function suma(a, b){
+    return a+b;
+}
+
 function substract(first, ...args) {
     let diff = first;
     for (arg of args) {
@@ -34,7 +38,6 @@ function sqrt(number){
     return Math.sqrt(number); 
 }
 
-
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
     operator.addEventListener('mousedown', function(e) {
@@ -45,27 +48,51 @@ operators.forEach((operator) => {
     })
 });
 
+
+let selectedNumber = 0;
+let result = 0;
 const numbers = document.querySelectorAll('.number');
-numbers.forEach((number) => {
-    number.addEventListener('mousedown', function(e) {
-        e.target.style.backgroundColor = '#918489';
-    })
-    number.addEventListener('mouseup', function(e) {
-        e.target.style.backgroundColor = '#5B5255';
-    })
-    number.addEventListener('click', () => {
-        let selectedNumber = number.innerText;
-        console.log("You clicked on "+selectedNumber);
-        console.log(document.getElementById('display'));
-        document.getElementById('display').innerText=selectedNumber;
-    })
-});
+    numbers.forEach((number) => {
+        number.addEventListener('mousedown', function(e) {
+            e.target.style.backgroundColor = '#918489';
+        })
+        number.addEventListener('mouseup', function(e) {
+            e.target.style.backgroundColor = '#5B5255';
+        })
+        number.addEventListener('click', () => {
+            //shows the selected number on display
+            selectedNumber = parseFloat(number.innerText);
+            document.getElementById('display').innerText=selectedNumber;
+            console.log(typeof(selectedNumber));
+            console.log("You clicked on "+selectedNumber);
+            result = suma(result, selectedNumber);
+            console.log("The current result value is "+result);
+            return selectedNumber;
+        })
+    });
 
-const equal = document.querySelector('.equal');
-equal.addEventListener('mousedown', function(e) {
+document.querySelector('#clear').addEventListener('click', () => {
+    document.getElementById('display').innerText=0;
+    result = 0;
+    //console.clear();
+    console.log("You cleared the memory.");
+})
+
+const sum = document.querySelector('#add');
+    sum.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('add').innerText);
+        console.log("The current result value is "+result);
+        return result;
+    })
+
+const equal = document.querySelector('#equal');
+    equal.addEventListener('mousedown', function (e) {
         e.target.style.backgroundColor = '#db97ac';
-});
-equal.addEventListener('mouseup', function(e) {
+    });
+    equal.addEventListener('mouseup', function (e) {
         e.target.style.backgroundColor = '#E16389';
-});
-
+    });
+    equal.addEventListener('click', () => {
+        document.getElementById('display').innerText = result;
+        console.log("The total is now " + result);
+    });
