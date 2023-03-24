@@ -2,7 +2,7 @@ function add(a, b){
     return b+a;
 }
 
-function substract(a, b){
+function substract(b, a){
     return b-a;
 }
 
@@ -10,7 +10,7 @@ function multiply(a, b) {
     return b*a;
 }
 
-function divide(a, b) {
+function divide(b, a) {
     return b/a;
 }
 
@@ -78,26 +78,32 @@ const sum = document.querySelector('#plus');
 
 const diff = document.querySelector('#minus');
     diff.addEventListener('click', () => {
-        console.log("You clicked on "+document.getElementById('minus').innerText);
-        b=a;
-        a=undefined;
-        lastOperation="substract";
+        console.log("You clicked on "+document.getElementById('plus').innerText);        
+        inputs.push(a);
+        inputs.push("-");
+        a="";
+        console.log("a is now "+a);
+        console.log("inputs is now "+ inputs);
     })
 
 const product = document.querySelector('#multiply');
     product.addEventListener('click', () => {
-        console.log("You clicked on "+document.getElementById('multiply').innerText);
-        b=a;
+        console.log("You clicked on "+document.getElementById('plus').innerText);        
+        inputs.push(a);
+        inputs.push("*");
         a="";
-        lastOperation="multiply";
+        console.log("a is now "+a);
+        console.log("inputs is now "+ inputs);
     })
 
 const division = document.querySelector('#divide');
     division.addEventListener('click', () => {
-        console.log("You clicked on "+document.getElementById('divide').innerText);
-        b=a;
+        console.log("You clicked on "+document.getElementById('plus').innerText);        
+        inputs.push(a);
+        inputs.push("/");
         a="";
-        lastOperation="divide";
+        console.log("a is now "+a);
+        console.log("inputs is now "+ inputs);
     })
 
 const sqrt = document.querySelector('#sqrt');
@@ -149,6 +155,15 @@ const equal = document.querySelector('#equal');
         for (i=0; i<=inputs.length; i++){
             if (inputs[1]=="+"){
                 result=add(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                inputs.splice(0, 3, result);
+            } else if (inputs[1]=="-"){
+                result=substract(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                inputs.splice(0, 3, result);
+            } else if (inputs[1]=="/"){
+                result=divide(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                inputs.splice(0, 3, result);
+            } else if (inputs[1]=="*"){
+                result=multiply(parseFloat(inputs[0]), parseFloat(inputs[2]));
                 inputs.splice(0, 3, result);
             }
         }
