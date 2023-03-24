@@ -1,42 +1,28 @@
-function add(...args) {
-    let add = 0;
-    for (arg of args) {
-        add += arg;
-    }
-    return add;
+function add(a, b){
+    return b+a;
 }
 
-function suma(a, b){
-    return a+b;
+function substract(a, b){
+    return b-a;
 }
 
-function substract(first, ...args) {
-    let diff = first;
-    for (arg of args) {
-        diff -= arg;
-    }
-    return diff;
+function multiply(a, b) {
+    return b*a;
 }
 
-function multiply(...args) {
-    let product = 1;
-    for (arg of args) {
-        product *= arg;
-    }
-    return product;
+function divide(a, b) {
+    return b/a;
 }
 
-function divide(first, ...args) {
-    let quotient = first;
-    for (arg of args) {
-        quotient /= arg;
-    }
-    return quotient;
+function squareRoot(a){
+    return Math.sqrt(a); 
 }
-
-function sqrt(number){
-    return Math.sqrt(number); 
-}
+let a="";
+let b="";
+let clickedNumber = 0;
+let result=0;
+let lastOperation;
+let inputs=[];
 
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
@@ -48,9 +34,6 @@ operators.forEach((operator) => {
     })
 });
 
-
-let selectedNumber = 0;
-let result = 0;
 const numbers = document.querySelectorAll('.number');
     numbers.forEach((number) => {
         number.addEventListener('mousedown', function(e) {
@@ -60,30 +43,78 @@ const numbers = document.querySelectorAll('.number');
             e.target.style.backgroundColor = '#5B5255';
         })
         number.addEventListener('click', () => {
-            //shows the selected number on display
-            selectedNumber = parseFloat(number.innerText);
-            document.getElementById('display').innerText=selectedNumber;
-            console.log(typeof(selectedNumber));
-            console.log("You clicked on "+selectedNumber);
-            result = suma(result, selectedNumber);
-            console.log("The current result value is "+result);
-            return selectedNumber;
+            clickedNumber = number.innerText;
+            a=a+clickedNumber;
+            document.getElementById('display').innerText=a;
+            console.log("You clicked on "+clickedNumber);
+            console.log("a is now "+a);
+            console.log("b is now "+b);
+            console.log("result is now "+ result);
+            // console.log(typeof(a));
+            return a;
         })
     });
 
 document.querySelector('#clear').addEventListener('click', () => {
     document.getElementById('display').innerText=0;
-    result = 0;
+    a="";
+    b="";
+    result=0;
+    inputs=[];
     //console.clear();
     console.log("You cleared the memory.");
 })
 
-const sum = document.querySelector('#add');
+const sum = document.querySelector('#plus');
     sum.addEventListener('click', () => {
-        console.log("You clicked on "+document.getElementById('add').innerText);
-        console.log("The current result value is "+result);
-        return result;
+        console.log("You clicked on "+document.getElementById('plus').innerText);        
+        inputs.push(a);
+        inputs.push("+");
+        a="";
+        console.log("a is now "+a);
+        console.log("inputs is now "+ inputs);
+
     })
+
+const diff = document.querySelector('#minus');
+    diff.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('minus').innerText);
+        b=a;
+        a=undefined;
+        lastOperation="substract";
+    })
+
+const product = document.querySelector('#multiply');
+    product.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('multiply').innerText);
+        b=a;
+        a="";
+        lastOperation="multiply";
+    })
+
+const division = document.querySelector('#divide');
+    division.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('divide').innerText);
+        b=a;
+        a="";
+        lastOperation="divide";
+    })
+
+const sqrt = document.querySelector('#sqrt');
+    sqrt.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('sqrt').innerText);
+        lastOperation="sqrt";
+        result = squareRoot(a);
+        console.log(result);
+        document.getElementById('display').innerText=result;
+    })
+
+// const posNeg = document.querySelector('#pos-neg');
+//     posNeg.addEventListener('click', () => {
+//         console.log("You clicked on "+document.getElementById('pos-neg').innerText);
+//         lastOperation="pos-neg";
+//         ... what do I want this button to do?
+//     })
 
 const equal = document.querySelector('#equal');
     equal.addEventListener('mousedown', function (e) {
@@ -92,7 +123,36 @@ const equal = document.querySelector('#equal');
     equal.addEventListener('mouseup', function (e) {
         e.target.style.backgroundColor = '#E16389';
     });
+    // equal.addEventListener('click', () => {
+    //     console.log("You clicked on "+document.getElementById('equal').innerText);
+    //     if (lastOperation=="add") {
+    //         result=add(parseFloat(a), parseFloat(b));
+    //         console.log("result is now "+ result);
+    //     } else if (lastOperation=="substract") {
+    //         result=substract(parseFloat(a), parseFloat(b));
+    //         console.log("result is now "+ result);
+    //     } else if (lastOperation=="multiply") {
+    //         result=multiply(parseFloat(a), parseFloat(b));
+    //         console.log("result is now "+ result);
+    //     } else if (lastOperation=="divide") {
+    //         result=divide(parseFloat(a), parseFloat(b));
+    //         console.log("result is now "+ result);
+    //     }
+    //     document.getElementById('display').innerText=result;
+    //     console.log("a is now "+a);
+    //     console.log("b is now "+b);
+    //     console.log("result is now "+ result);
+    // });
     equal.addEventListener('click', () => {
-        document.getElementById('display').innerText = result;
-        console.log("The total is now " + result);
+        inputs.push(a);
+        console.log("inputs is now "+ inputs);
+        for (i=0; i<=inputs.length; i++){
+            if (inputs[1]=="+"){
+                result=add(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                inputs.splice(0, 3, result);
+            }
+        }
+        console.log("inputs is now "+ inputs);
+        console.log(result);
+        document.getElementById('display').innerText=result;
     });
