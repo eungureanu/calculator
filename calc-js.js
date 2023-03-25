@@ -53,7 +53,7 @@ const numbers = document.querySelectorAll('.number');
             // console.log(typeof(a));
             return a;
         })
-    });
+    });  
 
 document.querySelector('#clear').addEventListener('click', () => {
     document.getElementById('display').innerText=0;
@@ -109,18 +109,24 @@ const division = document.querySelector('#divide');
 const sqrt = document.querySelector('#sqrt');
     sqrt.addEventListener('click', () => {
         console.log("You clicked on "+document.getElementById('sqrt').innerText);
-        lastOperation="sqrt";
         result = squareRoot(a);
         console.log(result);
         document.getElementById('display').innerText=result;
     })
 
-// const posNeg = document.querySelector('#pos-neg');
-//     posNeg.addEventListener('click', () => {
-//         console.log("You clicked on "+document.getElementById('pos-neg').innerText);
-//         lastOperation="pos-neg";
-//         ... what do I want this button to do?
-//     })
+const posNeg = document.querySelector('#pos-neg');
+    posNeg.addEventListener('click', () => {
+        console.log("You clicked on "+document.getElementById('pos-neg').innerText);
+        if (a > 0) {
+            a="-"+a;
+            document.getElementById('display').innerText=a;
+            console.log("a is now"+a);
+        } else if (a < 0) {
+            a=a.slice(1);
+            document.getElementById('display').innerText=a;
+            console.log("a is now"+a);
+        }
+    })
 
 const equal = document.querySelector('#equal');
     equal.addEventListener('mousedown', function (e) {
@@ -129,26 +135,6 @@ const equal = document.querySelector('#equal');
     equal.addEventListener('mouseup', function (e) {
         e.target.style.backgroundColor = '#E16389';
     });
-    // equal.addEventListener('click', () => {
-    //     console.log("You clicked on "+document.getElementById('equal').innerText);
-    //     if (lastOperation=="add") {
-    //         result=add(parseFloat(a), parseFloat(b));
-    //         console.log("result is now "+ result);
-    //     } else if (lastOperation=="substract") {
-    //         result=substract(parseFloat(a), parseFloat(b));
-    //         console.log("result is now "+ result);
-    //     } else if (lastOperation=="multiply") {
-    //         result=multiply(parseFloat(a), parseFloat(b));
-    //         console.log("result is now "+ result);
-    //     } else if (lastOperation=="divide") {
-    //         result=divide(parseFloat(a), parseFloat(b));
-    //         console.log("result is now "+ result);
-    //     }
-    //     document.getElementById('display').innerText=result;
-    //     console.log("a is now "+a);
-    //     console.log("b is now "+b);
-    //     console.log("result is now "+ result);
-    // });
     equal.addEventListener('click', () => {
         inputs.push(a);
         console.log("inputs is now "+ inputs);
@@ -167,7 +153,11 @@ const equal = document.querySelector('#equal');
                 inputs.splice(0, 3, result);
             }
         }
-        console.log("inputs is now "+ inputs);
+        console.log("inputs is now finally "+ inputs);
+        //This below is so that the user can continue to perform calculations on the result
+        a=result;
+        inputs=[];
+        console.log("a is now");
         console.log(result);
         document.getElementById('display').innerText=result;
     });
