@@ -48,7 +48,6 @@ const numbers = document.querySelectorAll('.number');
             document.getElementById('display').innerText=a;
             console.log("You clicked on "+clickedNumber);
             console.log("a is now "+a);
-            console.log("b is now "+b);
             console.log("result is now "+ result);
             // console.log(typeof(a));
             return a;
@@ -111,6 +110,7 @@ const sqrt = document.querySelector('#sqrt');
         console.log("You clicked on "+document.getElementById('sqrt').innerText);
         result = squareRoot(a);
         console.log(result);
+        a=result;
         document.getElementById('display').innerText=result;
     })
 
@@ -136,28 +136,37 @@ const equal = document.querySelector('#equal');
         e.target.style.backgroundColor = '#E16389';
     });
     equal.addEventListener('click', () => {
+        console.log("You clicked =. inputs is now "+inputs);
+        console.log("a is now "+a);
         inputs.push(a);
         console.log("inputs is now "+ inputs);
-        for (i=0; i<=inputs.length; i++){
-            if (inputs[1]=="+"){
-                result=add(parseFloat(inputs[0]), parseFloat(inputs[2]));
-                inputs.splice(0, 3, result);
-            } else if (inputs[1]=="-"){
-                result=substract(parseFloat(inputs[0]), parseFloat(inputs[2]));
-                inputs.splice(0, 3, result);
-            } else if (inputs[1]=="/"){
-                result=divide(parseFloat(inputs[0]), parseFloat(inputs[2]));
-                inputs.splice(0, 3, result);
-            } else if (inputs[1]=="*"){
-                result=multiply(parseFloat(inputs[0]), parseFloat(inputs[2]));
-                inputs.splice(0, 3, result);
-            }
+        //poate fi cu doua if-uri ca sa evit while
+        while (isNaN(parseFloat(inputs[inputs.length-1]))) {
+            inputs.pop();
+            console.log("inputs is now "+ inputs);
         }
-        console.log("inputs is now finally "+ inputs);
+        for (i=0; i<=inputs.length; i++){
+                if (inputs[1]=="+"){
+                    result=add(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                    inputs.splice(0, 3, result);
+                } else if (inputs[1]=="-"){
+                    result=substract(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                    inputs.splice(0, 3, result);
+                } else if (inputs[1]=="/"){
+                    result=divide(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                    inputs.splice(0, 3, result);
+                } else if (inputs[1]=="*"){
+                    result=multiply(parseFloat(inputs[0]), parseFloat(inputs[2]));
+                    inputs.splice(0, 3, result);
+                } else if (inputs[1]==undefined){
+                    result = inputs[0];
+                }
+        }
+        console.log("The operations have been done, inputs is now finally "+ inputs);
         //This below is so that the user can continue to perform calculations on the result
         a=result;
         inputs=[];
-        console.log("a is now");
+        console.log("a is now "+a);
         console.log(result);
         document.getElementById('display').innerText=result;
     });
