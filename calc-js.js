@@ -17,11 +17,10 @@ function divide(b, a) {
 function squareRoot(a){
     return Math.sqrt(a); 
 }
+      
 let a="";
-let b="";
 let clickedNumber = 0;
 let result=0;
-let lastOperation;
 let inputs=[];
 
 const operators = document.querySelectorAll('.operator');
@@ -45,6 +44,7 @@ const numbers = document.querySelectorAll('.number');
         number.addEventListener('click', () => {
             clickedNumber = number.innerText;
             a=a+clickedNumber;
+            setFontSizeOfDisplayElement(a);
             document.getElementById('display').innerText=a;
             console.log("You clicked on "+clickedNumber);
             console.log("a is now "+a);
@@ -57,7 +57,6 @@ const numbers = document.querySelectorAll('.number');
 document.querySelector('#clear').addEventListener('click', () => {
     document.getElementById('display').innerText=0;
     a="";
-    b="";
     result=0;
     inputs=[];
     //console.clear();
@@ -68,7 +67,12 @@ const sum = document.querySelector('#plus');
     sum.addEventListener('click', () => {
         console.log("You clicked on "+document.getElementById('plus').innerText);        
         inputs.push(a);
-        inputs.push("+");
+        if (isNaN(parseFloat(inputs[inputs.length-1]))) {
+            //It starts at -2 because I always add the empty string from a when clicking an operator
+            inputs.splice(-2,2,"+");
+        } else {
+            inputs.push("+");
+        }
         a="";
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
@@ -79,7 +83,11 @@ const diff = document.querySelector('#minus');
     diff.addEventListener('click', () => {
         console.log("You clicked on "+document.getElementById('plus').innerText);        
         inputs.push(a);
-        inputs.push("-");
+        if (isNaN(parseFloat(inputs[inputs.length-1]))) {
+            inputs.splice(-2,2,"-");
+        } else {
+            inputs.push("-");
+        }
         a="";
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
@@ -89,7 +97,11 @@ const product = document.querySelector('#multiply');
     product.addEventListener('click', () => {
         console.log("You clicked on "+document.getElementById('plus').innerText);        
         inputs.push(a);
-        inputs.push("*");
+        if (isNaN(parseFloat(inputs[inputs.length-1]))) {
+            inputs.splice(-2,2,"*");
+        } else {
+            inputs.push("*");
+        }       
         a="";
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
@@ -99,7 +111,11 @@ const division = document.querySelector('#divide');
     division.addEventListener('click', () => {
         console.log("You clicked on "+document.getElementById('plus').innerText);        
         inputs.push(a);
-        inputs.push("/");
+        if (isNaN(parseFloat(inputs[inputs.length-1]))) {
+            inputs.splice(-2,2,"/");
+        } else {
+            inputs.push("/");
+        }
         a="";
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
@@ -111,6 +127,7 @@ const sqrt = document.querySelector('#sqrt');
         result = squareRoot(a);
         console.log(result);
         a=result;
+        //display number
         document.getElementById('display').innerText=result;
     })
 
@@ -119,10 +136,12 @@ const posNeg = document.querySelector('#pos-neg');
         console.log("You clicked on "+document.getElementById('pos-neg').innerText);
         if (a > 0) {
             a="-"+a;
+            //display number
             document.getElementById('display').innerText=a;
             console.log("a is now"+a);
         } else if (a < 0) {
             a=a.slice(1);
+            //display number
             document.getElementById('display').innerText=a;
             console.log("a is now"+a);
         }
@@ -140,7 +159,7 @@ const equal = document.querySelector('#equal');
         console.log("a is now "+a);
         inputs.push(a);
         console.log("inputs is now "+ inputs);
-        //poate fi cu doua if-uri ca sa evit while
+        //goes into infinite loop if you click an operator then equal
         while (isNaN(parseFloat(inputs[inputs.length-1]))) {
             inputs.pop();
             console.log("inputs is now "+ inputs);
@@ -168,5 +187,28 @@ const equal = document.querySelector('#equal');
         inputs=[];
         console.log("a is now "+a);
         console.log(result);
+        //display number
+        setFontSizeOfDisplayElement(result);
         document.getElementById('display').innerText=result;
+
     });
+
+    
+    
+    
+    
+    
+    function setFontSizeOfDisplayElement(numberToBeDisplayed){
+        let standardFontSize = "42px";
+        console.log("font set to 42");
+        let stringToBeDisplayed = numberToBeDisplayed.toString();
+        if(stringToBeDisplayed.length>3){
+            standardFontSize = "24px";
+            console.log("font set to 24");
+        }
+            
+        document.getElementById('display').style.fontSize = standardFontSize;
+        
+        
+        
+    }
