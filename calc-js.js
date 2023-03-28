@@ -1,3 +1,8 @@
+let a="";
+let clickedNumber = 0;
+let result=0;
+let inputs=[];
+
 function add(a, b){
     return b+a;
 }
@@ -17,11 +22,43 @@ function divide(b, a) {
 function squareRoot(a){
     return Math.sqrt(a); 
 }
-      
-let a="";
-let clickedNumber = 0;
-let result=0;
-let inputs=[];
+    
+function setFontSize(displayedValue) {
+    let defaultFontSize = getComputedStyle(document.getElementById('display')).fontSize;
+    console.log("font set to " + defaultFontSize);
+    let stringToBeDisplayed = displayedValue.toString();
+    let length = stringToBeDisplayed.length;
+    switch (length) {
+        case 11:
+        case 12:
+            defaultFontSize = "38px";
+            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
+            break;
+        case 13:
+            defaultFontSize = "34px";
+            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
+            break;
+        case 14:
+        case 15:
+            defaultFontSize = "30px";
+            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
+            break;
+        case 16:
+        case 17:
+            defaultFontSize = "26px";
+            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
+            break;
+        case 18:
+        case 19:
+        case 20:
+            defaultFontSize = "22px";
+            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
+            break;
+        default:
+            defaultFontSize = "42px";
+        }
+    document.getElementById('display').style.fontSize = defaultFontSize;
+}
 
 const operators = document.querySelectorAll('.operator');
 operators.forEach((operator) => {
@@ -44,7 +81,7 @@ const numbers = document.querySelectorAll('.number');
         number.addEventListener('click', () => {
             clickedNumber = number.innerText;
             a=a+clickedNumber;
-            setFontSizeOfDisplayElement(a);
+            setFontSize(a);
             document.getElementById('display').innerText=a;
             console.log("You clicked on "+clickedNumber);
             console.log("a is now "+a);
@@ -60,6 +97,7 @@ document.querySelector('#clear').addEventListener('click', () => {
     result=0;
     inputs=[];
     //console.clear();
+    setFontSize(result);
     console.log("You cleared the memory.");
 })
 
@@ -68,7 +106,7 @@ const sum = document.querySelector('#plus');
         console.log("You clicked on "+document.getElementById('plus').innerText);        
         inputs.push(a);
         if (isNaN(parseFloat(inputs[inputs.length-1]))) {
-            //It starts at -2 because I always add the empty string from a when clicking an operator
+            //It starts at -2 because I always add the empty string from <a> when clicking an operator
             inputs.splice(-2,2,"+");
         } else {
             inputs.push("+");
@@ -127,7 +165,7 @@ const sqrt = document.querySelector('#sqrt');
         result = squareRoot(a);
         console.log(result);
         a=result;
-        //display number
+        setFontSize(result);
         document.getElementById('display').innerText=result;
     })
 
@@ -136,12 +174,10 @@ const posNeg = document.querySelector('#pos-neg');
         console.log("You clicked on "+document.getElementById('pos-neg').innerText);
         if (a > 0) {
             a="-"+a;
-            //display number
             document.getElementById('display').innerText=a;
             console.log("a is now"+a);
         } else if (a < 0) {
             a=a.slice(1);
-            //display number
             document.getElementById('display').innerText=a;
             console.log("a is now"+a);
         }
@@ -182,33 +218,11 @@ const equal = document.querySelector('#equal');
                 }
         }
         console.log("The operations have been done, inputs is now finally "+ inputs);
-        //This below is so that the user can continue to perform calculations on the result
+        //The next two rows below enable the user to continue to perform calculations on the result
         a=result;
         inputs=[];
         console.log("a is now "+a);
         console.log(result);
-        //display number
-        setFontSizeOfDisplayElement(result);
+        setFontSize(result);
         document.getElementById('display').innerText=result;
-
     });
-
-    
-    
-    
-    
-    
-    function setFontSizeOfDisplayElement(numberToBeDisplayed){
-        let standardFontSize = "42px";
-        console.log("font set to 42");
-        let stringToBeDisplayed = numberToBeDisplayed.toString();
-        if(stringToBeDisplayed.length>3){
-            standardFontSize = "24px";
-            console.log("font set to 24");
-        }
-            
-        document.getElementById('display').style.fontSize = standardFontSize;
-        
-        
-        
-    }
