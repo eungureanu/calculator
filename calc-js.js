@@ -2,6 +2,7 @@ let a="";
 let clickedNumber = 0;
 let result=0;
 let inputs=[];
+let decimal = false;
 
 function add(a, b){
     return b+a;
@@ -22,41 +23,22 @@ function divide(b, a) {
 function squareRoot(a){
     return Math.sqrt(a); 
 }
-    
-function setFontSize(displayedValue) {
-    let defaultFontSize = getComputedStyle(document.getElementById('display')).fontSize;
-    console.log("font set to " + defaultFontSize);
+
+function fitToDisplay(displayedValue) {
     let stringToBeDisplayed = displayedValue.toString();
     let length = stringToBeDisplayed.length;
-    switch (length) {
-        case 11:
-        case 12:
-            defaultFontSize = "38px";
-            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
-            break;
-        case 13:
-            defaultFontSize = "34px";
-            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
-            break;
-        case 14:
-        case 15:
-            defaultFontSize = "30px";
-            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
-            break;
-        case 16:
-        case 17:
-            defaultFontSize = "26px";
-            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
-            break;
-        case 18:
-        case 19:
-        case 20:
-            defaultFontSize = "22px";
-            console.log("string length is "+`${length}`+"font set to "+`${defaultFontSize}`);
-            break;
-        default:
-            defaultFontSize = "42px";
-        }
+    let defaultFontSize;
+    if (length <= 10) {
+      defaultFontSize = "42px";
+      console.log("font is 42px");
+    } else if (length > 10 && length < 30) {
+      defaultFontSize = (40 - (2 * (length - 10))) + "px";
+      console.log("font is calculated");
+    }
+    //JavaScript rounds floating-point numbers to a maximum of 15 significant digits 
+    //so there is no need to trim the displayed result
+    //the highest risk was the result of sqrt or division, so that is covered
+    //other edge cases when the user types in very large numbers are intentionally left out
     document.getElementById('display').style.fontSize = defaultFontSize;
 }
 
@@ -80,8 +62,18 @@ const numbers = document.querySelectorAll('.number');
         })
         number.addEventListener('click', () => {
             clickedNumber = number.innerText;
-            a=a+clickedNumber;
-            setFontSize(a);
+            //only allows decimal point to be included once per number
+            //not covered when decimal point is in the result from the calculation
+            if (clickedNumber === '.') {
+                if (decimal == false) {
+                    a=a+clickedNumber;
+                    decimal = true;
+                }
+            } else {
+                a=a+clickedNumber;
+            }
+            // a=a+clickedNumber;
+            fitToDisplay(a);
             document.getElementById('display').innerText=a;
             console.log("You clicked on "+clickedNumber);
             console.log("a is now "+a);
@@ -96,8 +88,9 @@ document.querySelector('#clear').addEventListener('click', () => {
     a="";
     result=0;
     inputs=[];
+    decimal = false;
     //console.clear();
-    setFontSize(result);
+    fitToDisplay(result);
     console.log("You cleared the memory.");
 })
 
@@ -112,6 +105,7 @@ const sum = document.querySelector('#plus');
             inputs.push("+");
         }
         a="";
+        decimal = false;
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
 
@@ -127,6 +121,7 @@ const diff = document.querySelector('#minus');
             inputs.push("-");
         }
         a="";
+        decimal = false;
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
     })
@@ -141,6 +136,7 @@ const product = document.querySelector('#multiply');
             inputs.push("*");
         }       
         a="";
+        decimal = false;
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
     })
@@ -155,6 +151,7 @@ const division = document.querySelector('#divide');
             inputs.push("/");
         }
         a="";
+        decimal = false;
         console.log("a is now "+a);
         console.log("inputs is now "+ inputs);
     })
@@ -165,7 +162,8 @@ const sqrt = document.querySelector('#sqrt');
         result = squareRoot(a);
         console.log(result);
         a=result;
-        setFontSize(result);
+        // setFontSize(result);
+        fitToDisplay(result);
         document.getElementById('display').innerText=result;
     })
 
@@ -221,8 +219,9 @@ const equal = document.querySelector('#equal');
         //The next two rows below enable the user to continue to perform calculations on the result
         a=result;
         inputs=[];
+        decimal = false;
         console.log("a is now "+a);
         console.log(result);
-        setFontSize(result);
+        fitToDisplay(result);
         document.getElementById('display').innerText=result;
     });
