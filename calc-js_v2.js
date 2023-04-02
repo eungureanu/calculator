@@ -5,20 +5,47 @@ let inputs=[];
 let decimal = false;
 
 function add(a, b){
-    return b+a;
+    const decimalPlaces = Math.max((a.toString().split('.')[1] || '').length, (b.toString().split('.')[1] || '').length);
+    const int1 = Math.round(a * Math.pow(10, decimalPlaces));
+    const int2 = Math.round(b * Math.pow(10, decimalPlaces));
+    const resultInt = int1 + int2;
+    return (resultInt / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces);
 }
 
-function substract(b, a){
-    return b-a;
+function subtract(a, b) {
+    const decimalPlaces = Math.max((a.toString().split('.')[1] || '').length, (b.toString().split('.')[1] || '').length);
+    const int1 = Math.round(a * Math.pow(10, decimalPlaces));
+    const int2 = Math.round(b * Math.pow(10, decimalPlaces));
+    const resultInt = int1 - int2;
+    return (resultInt / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces);
 }
 
 function multiply(a, b) {
-    return b*a;
+    const decimalPlacesA = (a.toString().split('.')[1] || '').length;
+    const decimalPlacesB = (b.toString().split('.')[1] || '').length;
+    const decimalPlacesTotal = decimalPlacesA + decimalPlacesB;
+    const int1 = Math.round(a * Math.pow(10, decimalPlacesA));
+    const int2 = Math.round(b * Math.pow(10, decimalPlacesB));
+    const resultInt = int1 * int2;
+    return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesTotal);
 }
 
-function divide(b, a) {
-    return b/a;
-}
+// function divide(a, b) {
+//     const decimalPlacesA = (a.toString().split('.')[1] || '').length;
+//     const decimalPlacesB = (b.toString().split('.')[1] || '').length;
+//     let decimalPlacesTotal = decimalPlacesA - decimalPlacesB;
+//     const int1 = Math.round(a * Math.pow(10, decimalPlacesA));
+//     const int2 = Math.round(b * Math.pow(10, decimalPlacesB));
+//     const resultInt = int1 / int2;
+//     const decimalPlacesResult = (resultInt.toString().split('.')[1] || '').length;
+//     if (decimalPlacesTotal > 0) {
+//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesTotal);
+//     } else if (decimalPlacesTotal = 0) {
+//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(0);
+//     } else {
+//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesResult);
+//     }
+// }
 
 function squareRoot(a){
     return Math.sqrt(a); 
@@ -203,7 +230,7 @@ const equal = document.querySelector('#equal');
                     result=add(Number(inputs[0]), Number(inputs[2]));
                     inputs.splice(0, 3, result);
                 } else if (inputs[1]=="-"){
-                    result=substract(Number(inputs[0]), Number(inputs[2]));
+                    result=subtract(Number(inputs[0]), Number(inputs[2]));
                     inputs.splice(0, 3, result);
                 } else if (inputs[1]=="/"){
                     result=divide(Number(inputs[0]), Number(inputs[2]));
