@@ -9,7 +9,7 @@ function add(a, b){
     const int1 = Math.round(a * Math.pow(10, decimalPlaces));
     const int2 = Math.round(b * Math.pow(10, decimalPlaces));
     const resultInt = int1 + int2;
-    return (resultInt / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces);
+    return (resultInt / Math.pow(10, decimalPlaces));
 }
 
 function subtract(a, b) {
@@ -17,7 +17,7 @@ function subtract(a, b) {
     const int1 = Math.round(a * Math.pow(10, decimalPlaces));
     const int2 = Math.round(b * Math.pow(10, decimalPlaces));
     const resultInt = int1 - int2;
-    return (resultInt / Math.pow(10, decimalPlaces)).toFixed(decimalPlaces);
+    return (resultInt / Math.pow(10, decimalPlaces));
 }
 
 function multiply(a, b) {
@@ -27,25 +27,18 @@ function multiply(a, b) {
     const int1 = Math.round(a * Math.pow(10, decimalPlacesA));
     const int2 = Math.round(b * Math.pow(10, decimalPlacesB));
     const resultInt = int1 * int2;
-    return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesTotal);
+    return (resultInt / Math.pow(10, decimalPlacesTotal));
 }
 
-// function divide(a, b) {
-//     const decimalPlacesA = (a.toString().split('.')[1] || '').length;
-//     const decimalPlacesB = (b.toString().split('.')[1] || '').length;
-//     let decimalPlacesTotal = decimalPlacesA - decimalPlacesB;
-//     const int1 = Math.round(a * Math.pow(10, decimalPlacesA));
-//     const int2 = Math.round(b * Math.pow(10, decimalPlacesB));
-//     const resultInt = int1 / int2;
-//     const decimalPlacesResult = (resultInt.toString().split('.')[1] || '').length;
-//     if (decimalPlacesTotal > 0) {
-//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesTotal);
-//     } else if (decimalPlacesTotal = 0) {
-//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(0);
-//     } else {
-//         return (resultInt / Math.pow(10, decimalPlacesTotal)).toFixed(decimalPlacesResult);
-//     }
-// }
+function divide(a, b) {
+    const decimalPlacesA = (a.toString().split('.')[1] || '').length;
+    const decimalPlacesB = (b.toString().split('.')[1] || '').length;
+    const decimalPlacesMax = Math.max(decimalPlacesA, decimalPlacesB);
+    const int1 = Math.round(a * Math.pow(10, decimalPlacesMax));
+    const int2 = Math.round(b * Math.pow(10, decimalPlacesMax));
+    const resultInt = int1 / int2;
+    return resultInt;
+}
 
 function squareRoot(a){
     return Math.sqrt(a); 
